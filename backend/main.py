@@ -35,3 +35,19 @@ def budgets():
     return data["budgets"].to_dict(
         orient="records"
     )
+
+@app.get("/summary")
+def summary():
+    data =load_budget_data()
+
+    budgets=data["budgets"]
+    expenses=data["expenses"]
+
+    total_budget=budgets["allocated"].sum()
+    total_expenses=expenses["amount"].sum()
+
+    return {
+        "total_budget": int(total_budget),
+        "total_expenses": int(total_expenses),
+        "remaining_budget": int(total_budget - total_expenses)
+    }
