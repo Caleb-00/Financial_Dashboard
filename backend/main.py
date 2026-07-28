@@ -27,3 +27,11 @@ def expenses():
     return data["expenses"].to_dict(
         orient="records"
     )
+
+@app.get("/budgets")
+def budgets():
+    data = load_budget_data()
+
+    return data["budgets"].to_dict(
+        orient="records"
+    )
