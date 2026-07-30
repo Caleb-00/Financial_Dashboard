@@ -4,6 +4,9 @@ app = FastAPI(
     title="Budget Management API"
 )
 
+
+#setting up the paths for the API
+
 @app.get("/")
 def home():
     return {
@@ -36,6 +39,7 @@ def budgets():
         orient="records"
     )
 
+#This path uses sum of expenses and budget to then return information about the budget and expenses to the API
 @app.get("/summary")
 def summary():
     data =load_budget_data()
