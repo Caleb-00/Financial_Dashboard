@@ -2,7 +2,8 @@ import streamlit as st
 from data import load_budget_data
 import plotly.express as px
 import plotly.graph_objects as go
-
+import plotly.io as pio
+pio.templates.default = "plotly"
 
 # -----------------------------
 # Page Configuration
@@ -46,7 +47,7 @@ utilization = (total_expenses / total_budget) * 100
 st.title("Budget Management Dashboard")
 
 st.write(
-    "Executive overview of organizational spending and budget utilization."
+    "This dashboard provides an overview of the budget allocation, expenses, and remaining budget for the organization."
 )
 
 
@@ -105,8 +106,28 @@ department_chart = px.bar(
     title="Budget by Department"
 )
 
+department_chart.update_layout(
+    xaxis_title="Allocated Budget",
+    yaxis_title="Department",
+    
+)
 
 st.plotly_chart(
     department_chart,
+    use_container_width=True
+)
+# -----------------------------
+# Department Budget Pie Chart
+# -----------------------------
+
+department_pie_chart = px.pie(
+    department_budget,
+    values="allocated",
+    names="Department_name",
+    title="Budget by Department Pie Chart"
+)
+
+st.plotly_chart(
+    department_pie_chart,
     use_container_width=True
 )
