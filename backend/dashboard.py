@@ -14,6 +14,7 @@ st.set_page_config(
 )
 
 
+
 # -----------------------------
 # Load Data
 # -----------------------------
@@ -22,8 +23,9 @@ data = load_budget_data()
 
 budgets = data["budgets"]
 expenses = data["expenses"]
+departments = data["departments"]
 
-
+budgets=budgets.merge(departments, on="Department_ID")
 # -----------------------------
 # Calculate Metrics
 # -----------------------------
@@ -82,70 +84,25 @@ col4.metric(
 st.divider()
 
 
-# -----------------------------
-# Budget Overview Chart
-# -----------------------------
-
-comparison = {
-    "Category": [
-        "Budget",
-        "Expenses",
-        "Remaining"
-    ],
-    "Amount": [
-        total_budget,
-        total_expenses,
-        remaining_budget
-    ]
-}
-
-
-fig = px.bar(
-    comparison,
-    x="Category",
-    y="Amount",
-    title="Budget Overview",
-    text="Amount"
-)
-
-
-fig.update_traces(
-    texttemplate="$%{text:,.0f}",
-    textposition="outside"
-)
-
-
-fig.update_layout(
-    yaxis_title="Amount ($)",
-    xaxis_title="",
-    showlegend=False,
-    height=500
-)
-
-
-st.plotly_chart(
-    fig,
-    use_container_width=True
-)
-
 
 # -----------------------------
-# Department Spending Chart
+# Department Budget Chart
 # -----------------------------
 
-department_spending = (
-    expenses
-    .groupby("Department_ID")["amount"]
+department_budget = (
+    budgets
+    .groupby("Department_name")["allocated"]
     .sum()
     .reset_index()
 )
 
 
 department_chart = px.bar(
-    department_spending,
-    x="Department_ID",
-    y="amount",
-    title="Spending by Department"
+    department_budget,
+    y="Department_name",
+    x="allocated",
+    orientation="h",
+    title="Budget by Department"
 )
 
 
