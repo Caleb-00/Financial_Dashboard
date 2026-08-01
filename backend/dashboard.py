@@ -131,3 +131,34 @@ st.plotly_chart(
     department_pie_chart,
     use_container_width=True
 )
+# -----------------------------
+# Department Expense Chart
+# -----------------------------
+
+department_expenses = (
+    expenses
+    .merge(departments, on="Department_ID")
+    .groupby("Department_name")["amount"]
+    .sum()
+    .reset_index()
+)
+
+
+expense_chart = px.bar(
+    department_expenses,
+    x="Department_name",
+    y="amount",
+    title="Expenses by Department",
+)
+
+expense_chart.update_layout(
+    xaxis_title="Department",
+    yaxis_title="Expenses",
+    xaxis_tickangle=-45
+)
+
+
+st.plotly_chart(
+    expense_chart,
+    use_container_width=True
+)
