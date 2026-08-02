@@ -111,11 +111,13 @@ department_chart.update_layout(
     yaxis_title="Department",
     
 )
+#this is the original way to display the bar chart before formatting
 
-st.plotly_chart(
-    department_chart,
-    use_container_width=True
-)
+#st.plotly_chart(
+    #department_chart,
+   # use_container_width=True
+#)
+
 # -----------------------------
 # Department Budget Pie Chart
 # -----------------------------
@@ -127,10 +129,14 @@ department_pie_chart = px.pie(
     title="Budget by Department Pie Chart"
 )
 
-st.plotly_chart(
-    department_pie_chart,
-    use_container_width=True
-)
+#this is the original way to display the pie chart before formatting
+
+#st.plotly_chart(
+    #department_pie_chart,
+    #use_container_width=True
+#)
+
+
 # -----------------------------
 # Department Expense Chart
 # -----------------------------
@@ -157,6 +163,34 @@ expense_chart.update_layout(
     xaxis_tickangle=-45
 )
 
+#this is the original way to display the chart before formatting
+#st.plotly_chart(
+    #expense_chart,
+    #use_container_width=True
+#)
+
+
+# -----------------------------
+# Top Row: Budget Bar + Pie Chart
+# -----------------------------
+
+left_col, right_col = st.columns([2, 1])  # Bar chart gets more space
+
+with left_col:
+    st.plotly_chart(
+        department_chart,
+        use_container_width=True
+    )
+
+with right_col:
+    st.plotly_chart(
+        department_pie_chart,
+        use_container_width=True
+    )
+
+# -----------------------------
+# Bottom Row: Expense Chart
+# -----------------------------
 
 st.plotly_chart(
     expense_chart,
